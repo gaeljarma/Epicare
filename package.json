@@ -14,7 +14,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.74.1",
-    "react-native-web": "~0.19.10"
+    "react-native-web": "~0.19.10",
+    "react-native-svg": "15.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -32,6 +33,10 @@
   "private": true,
   "eslintConfig": {
     "parser": "babel-eslint",
-    "extends": ["standard", "standard-jsx", "standard-react"]
+    "extends": [
+      "standard",
+      "standard-jsx",
+      "standard-react"
+    ]
   }
 }
