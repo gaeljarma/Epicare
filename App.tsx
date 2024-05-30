@@ -3,6 +3,9 @@ import LogInPage from "./src/Components/LogInPage";
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { BlurView } from 'expo-blur';
+
+
 
 const Stack = createNativeStackNavigator();
 

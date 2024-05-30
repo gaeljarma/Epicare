@@ -1,11 +1,12 @@
-import { StyleSheet, View, Image } from "react-native"
+import { StyleSheet, View, Image } from "react-native";
+import { BlurView } from 'expo-blur';
 
 export default function HomePage() {
     return (
         <View style={styles.container}>
-            <View style={styles.statusBar} />
-
-
+            <BlurView intensity={40}>
+                <View style={styles.statusBar} />
+            </BlurView>
             <View style={styles.imagesContainer}>
                 <Image source={require("../../assets/bordeIzqSup.png")} />
                 <Image source={require("../../assets/bordeDerechoInferior.png")} style={styles.imageRigth} />
