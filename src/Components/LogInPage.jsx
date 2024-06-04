@@ -30,8 +30,7 @@ export default function LogInPage( {navigation} ) {
                     <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                         <Text style={styles.buttonText} >Log In</Text>
                     </TouchableOpacity>
-                </View>
-
+                </View >
                 <StatusBar style="light" />
             </View>
         </TouchableWithoutFeedback>

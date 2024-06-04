@@ -1,10 +1,10 @@
 import HomePage from "./src/Components/HomePage";
 import LogInPage from "./src/Components/LogInPage";
-import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { BlurView } from 'expo-blur';
-
+import { Calendar, CalendarList, Agenda, LocaleConfig } from 'react-native-calendars';
+import React, { useState } from 'react';
 
 
 const Stack = createNativeStackNavigator();
