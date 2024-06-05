@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Image, Modal, TouchableWithoutFeedback, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, View, Image, Modal, TouchableOpacity, Text } from "react-native";
 import { BlurView } from 'expo-blur';
 import Calendario from "./Calendario";
 
 export default function HomePage() {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [markedDates, setMarkedDates] = useState({});
 
   const handleDayPress = (dateString: string) => {
@@ -23,26 +23,39 @@ export default function HomePage() {
         <Image source={require("../../assets/bordeIzqSup.png")} />
         <Image source={require("../../assets/bordeDerechoInferior.png")} style={styles.imageRight} />
       </View>
-      <TouchableOpacity style={styles.previewContainer} onPress={() => setModalVisible(true)}>
-        <Calendario onDayPress={handleDayPress} markedDates={markedDates} />
-      </TouchableOpacity>
+
       <Modal
         animationType="slide"
         transparent={false}
-        visible={modalVisible}
+        visible={visible}
         onRequestClose={() => {
-          setModalVisible(!modalVisible);
+          setVisible(false);
         }}
       >
         <View style={styles.modalContainer}>
-          <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(!modalVisible)}>
+          <TouchableOpacity style={styles.closeButton} onPress={() => {
+            setVisible(false);
+          }}>
             <Text style={styles.closeButtonText}>Close</Text>
           </TouchableOpacity>
           <Calendario onDayPress={handleDayPress} markedDates={markedDates} />
         </View>
       </Modal>
+
       <View style={styles.navBar}>
         <Image source={require("../../assets/logo.png")} style={styles.logo} />
+        <View style={styles.navBarButtons}>
+          <TouchableOpacity style={styles.openButton} onPress={() => {
+            setVisible(true);
+          }}>
+            <Text style={styles.openButtonText}>Open</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.openButton} onPress={() => {
+            setVisible(true);
+          }}>
+            <Text style={styles.openButtonText}>Open</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -64,15 +77,6 @@ const styles = StyleSheet.create({
   },
   imageRight: {
     marginLeft: "10%",
-  },
-  previewContainer: {
-    flex: 1,
-    justifyContent: 'flex-end', // Alinea el contenido al inicio
-    alignItems: 'center',
-    height: 150, // Altura reducida
-    width: '70%',
-    alignSelf: 'center',
-    marginTop: 20, // Añade margen superior
   },
   modalContainer: {
     flex: 1,
@@ -97,7 +101,24 @@ const styles = StyleSheet.create({
   navBar: {
     height: 90,
     alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
     backgroundColor: "#4B1C71",
+    paddingHorizontal: 20,
+  },
+  navBarButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "90%",
+  },
+  openButton: {
+    padding: 10,
+    backgroundColor: "#fff",
+    borderRadius: 5,
+  },
+  openButtonText: {
+    color: "#4B1C71",
+    fontSize: 18,
   },
   logo: {
     position: "absolute",
