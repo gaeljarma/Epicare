@@ -5,7 +5,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { BlurView } from 'expo-blur';
 import { Calendar, CalendarList, Agenda, LocaleConfig } from 'react-native-calendars';
 import React, { useState } from 'react';
-
+import { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
 
 const Stack = createNativeStackNavigator();
 
