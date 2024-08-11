@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
 import { StyleSheet, Text, View, Alert, TextInput, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
-
+import React, { useState } from 'react'
+import { Alert, StyleSheet, View } from 'react-native'
+import { supabase } from '../lib/supabase'
+import { Button, Input } from '@rneui/themed'
 
 export default function LogInPage({ navigation }) {
 
@@ -9,10 +11,36 @@ export default function LogInPage({ navigation }) {
         navigation.navigate('Home')
     }
 
-
+    const [loading, setLoading] = useState(false)
     const [emailActive, setEmailActive] = useState(false);
     const [passwordActive, setPasswordActive] = useState(false);
 
+    async function signInWithEmail() {
+        setLoading(true)
+        const { error } = await supabase.auth.signInWithPassword({
+          emailActive: emailActive,
+          passwordActive: passwordActive,
+        })
+
+        if (error) Alert.alert(error.message)
+            setLoading(false)
+          }
+        
+    async function signUpWithEmail() {
+        setLoading(true)
+        const {
+            data: { session },
+            error,
+        } = await supabase.auth.signUp({
+            emailActive: emailActive,
+            passwordActive: passwordActive,
+        })
+        
+        if (error) Alert.alert(error.message)
+        if (!session) Alert.alert('Please check your inbox for email verification!')
+        setLoading(false)
+    }
+    
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
