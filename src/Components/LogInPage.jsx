@@ -2,16 +2,17 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, Text, View, Alert, TextInput, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
-
-export default function LogInPage({ navigation }) {
+export default function RegisterPage({ navigation }) {
 
     const handleSubmit = () => {
-        navigation.navigate('Home')
+        // Aquí podrías agregar lógica para manejar la creación de cuenta, como enviar los datos a un servidor.
+        navigation.navigate('Home');
     }
-
 
     const [emailActive, setEmailActive] = useState(false);
     const [passwordActive, setPasswordActive] = useState(false);
+    const [nameActive, setNameActive] = useState(false);
+    const [phoneActive, setPhoneActive] = useState(false);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -22,35 +23,61 @@ export default function LogInPage({ navigation }) {
                     <Image source={require("../../assets/vector abajo register.png")} style={styles.leftImage} />
                 </View>
                 <View style={styles.formContainer}>
-                    <Text style={styles.titulo}>Log in</Text>
-                    <View style={styles.emailContainer}>
-                        <View style={[styles.beforeElementEmail, { top: emailActive ? -50 : 0 }]}>
-                            <Text style={styles.emailText}>Email</Text>
+                    <Text style={styles.titulo}>Register</Text>
+
+                    <View style={styles.inputContainer}>
+                        <View style={[styles.beforeElement, { top: emailActive ? -50 : 0 }]}>
+                            <Text style={styles.inputText}>Email</Text>
                         </View>
                         <TextInput
-                            onFocus={() => {
-                                setEmailActive(true)
-                            }}
-                            onBlur={() => {
-                                setEmailActive(false)
-                            }}
-                            style={styles.email}
+                            onFocus={() => setEmailActive(true)}
+                            onBlur={() => setEmailActive(false)}
+                            style={styles.input}
                         />
                     </View>
 
-                    <TextInput
-                        placeholder="Password"
-                        style={styles.textInput}
-                        secureTextEntry={true}
-                    />
+                    <View style={styles.inputContainer}>
+                        <View style={[styles.beforeElement, { top: passwordActive ? -50 : 0 }]}>
+                            <Text style={styles.inputText}>Password</Text>
+                        </View>
+                        <TextInput
+                            onFocus={() => setPasswordActive(true)}
+                            onBlur={() => setPasswordActive(false)}
+                            style={styles.input}
+                            secureTextEntry={true}
+                        />
+                    </View>
+
+                    <View style={styles.inputContainer}>
+                        <View style={[styles.beforeElement, { top: nameActive ? -50 : 0 }]}>
+                            <Text style={styles.inputText}>Name</Text>
+                        </View>
+                        <TextInput
+                            onFocus={() => setNameActive(true)}
+                            onBlur={() => setNameActive(false)}
+                            style={styles.input}
+                        />
+                    </View>
+
+                    <View style={styles.inputContainer}>
+                        <View style={[styles.beforeElement, { top: phoneActive ? -50 : 0 }]}>
+                            <Text style={styles.inputText}>Phone</Text>
+                        </View>
+                        <TextInput
+                            onFocus={() => setPhoneActive(true)}
+                            onBlur={() => setPhoneActive(false)}
+                            style={styles.input}
+                            keyboardType="phone-pad"
+                        />
+                    </View>
+
                     <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                        <Text style={styles.buttonText} >Log In</Text>
+                        <Text style={styles.buttonText}>Register</Text>
                     </TouchableOpacity>
-                </View >
+                </View>
                 <StatusBar style="light" />
             </View>
         </TouchableWithoutFeedback>
-
     )
 }
 
@@ -73,7 +100,6 @@ const styles = StyleSheet.create({
         width: "100%",
         top: 38,
     },
-
     topImage: {
         top: -2,
     },
@@ -90,7 +116,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: "center",
         borderRadius: 12,
-        height: 367, //TO DO: Responsive
+        height: 460, // Ajuste para acomodar más campos
         gap: 20,
     },
     titulo: {
@@ -98,18 +124,7 @@ const styles = StyleSheet.create({
         color: '#4B1C71',
         fontWeight: 'bold',
     },
-
-    textInput: {
-        padding: 10,
-        paddingStart: 30,
-        height: 50,
-        width: '80%',
-        borderRadius: 5,
-        borderWidth: 2,
-        borderColor: "#7F4CA5",
-        borderStyle: "solid",
-    },
-    emailContainer: {
+    inputContainer: {
         position: "relative",
         padding: 10,
         paddingStart: 30,
@@ -120,20 +135,19 @@ const styles = StyleSheet.create({
         borderColor: "#7F4CA5",
         borderStyle: "solid",
     },
-    beforeElementEmail: {
+    beforeElement: {
         position: 'absolute',
         left: 30,
         bottom: 0,
         justifyContent: 'center',
         alignItems: 'center'
-
     },
-    emailText: {
+    inputText: {
         backgroundColor: "#F2F2F2",
         paddingLeft: 5,
         paddingRight: 5,
     },
-    email: {
+    input: {
         width: "100%",
         height: "100%"
     },
