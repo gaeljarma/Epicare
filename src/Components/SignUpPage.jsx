@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { supabase } from './supabaseClient';
 
-export default function LoginPage({ navigation }) {
+export default function RegisterPage({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [session, setSession] = useState(null);
     const [emailActive, setEmailActive] = useState(false);
     const [passwordActive, setPasswordActive] = useState(false);
+    const [nameActive, setNameActive] = useState(false);
+    const [phoneActive, setPhoneActive] = useState(false);
 
     useEffect(() => {
         const getSession = async () => {
@@ -24,11 +26,11 @@ export default function LoginPage({ navigation }) {
         return () => subscription.unsubscribe();
     }, []);
 
-    const handleLogin = async () => {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const handleRegister = async () => {
+        const { error } = await supabase.auth.signUp({ email, password });
 
         if (error) Alert.alert('Error', error.message);
-        else navigation.navigate('Home'); // Navegar a la página de inicio si el login es exitoso
+        else navigation.navigate('Home');
     };
 
     if (!session) {
@@ -36,8 +38,11 @@ export default function LoginPage({ navigation }) {
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.container}>
                     <View style={styles.statusBar} />
+                    <View style={styles.backgroundContainer}>
+                        {/* Aquí van tus imágenes de fondo */}
+                    </View>
                     <View style={styles.formContainer}>
-                        <Text style={styles.titulo}>Login</Text>
+                        <Text style={styles.titulo}>Register</Text>
 
                         <View style={styles.inputContainer}>
                             <View style={[styles.beforeElement, { top: emailActive ? -50 : 0 }]}>
@@ -66,8 +71,9 @@ export default function LoginPage({ navigation }) {
                             />
                         </View>
 
-                        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                            <Text style={styles.buttonText}>Login</Text>
+                        {/* Tus otros campos de Name y Phone */}
+                        <TouchableOpacity style={styles.button} onPress={handleRegister}>
+                            <Text style={styles.buttonText}>Register</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -88,47 +94,83 @@ const styles = StyleSheet.create({
         backgroundColor: "#4B1C71",
     },
     container: {
+        position: "relative",
         flex: 1,
         backgroundColor: '#f1f1f1',
         justifyContent: 'center',
-        alignItems: 'center',
+    },
+    backgroundContainer: {
+        backgroundColor: "#EDD8ED",
+        position: "absolute",
+        justifyContent: "space-between",
+        height: "96%",
+        width: "100%",
+        top: 38,
+    },
+    topImage: {
+        top: -2,
+    },
+    leftImage: {
+        left: -2,
     },
     formContainer: {
         width: "80%",
+        margin: "auto",
         backgroundColor: "#F2F2F2",
         borderWidth: 1,
         borderColor: "#7950B2",
-        borderRadius: 12,
-        padding: 20,
+        borderStyle: "solid",
         alignItems: 'center',
+        justifyContent: "center",
+        borderRadius: 12,
+        height: 460, // Ajuste para acomodar más campos
+        gap: 20,
     },
     titulo: {
         fontSize: 40,
         color: '#4B1C71',
         fontWeight: 'bold',
-        marginBottom: 20,
     },
     inputContainer: {
-        width: '100%',
-        marginBottom: 20,
+        position: "relative",
+        padding: 10,
+        paddingStart: 30,
+        height: 50,
+        width: '80%',
+        borderRadius: 5,
+        borderWidth: 2,
+        borderColor: "#7F4CA5",
+        borderStyle: "solid",
+    },
+    beforeElement: {
+        position: 'absolute',
+        left: 30,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    inputText: {
+        backgroundColor: "#F2F2F2",
+        paddingLeft: 5,
+        paddingRight: 5,
     },
     input: {
-        borderColor: '#7F4CA5',
-        borderWidth: 2,
-        borderRadius: 5,
-        padding: 10,
-        width: '100%',
+        width: "100%",
+        height: "100%"
     },
     button: {
         padding: 10,
+        paddingStart: 30,
+        paddingEnd: 30,
+        height: 48,
         backgroundColor: "#4B1C71",
         borderRadius: 30,
         alignItems: "center",
         justifyContent: "center",
-        width: '100%',
     },
     buttonText: {
         color: "#FFF",
         fontWeight: "bold",
     }
 });
+
