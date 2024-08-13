@@ -1,16 +1,25 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Image, Modal, TouchableOpacity, Text } from "react-native";
-import { BlurView } from 'expo-blur';
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Modal,
+  TouchableOpacity,
+  Text,
+} from "react-native";
+import { BlurView } from "expo-blur";
 import Calendario from "./Calendario";
+import { Link, router } from "expo-router";
 
 export default function HomePage() {
+
   const [visible, setVisible] = useState(false);
   const [markedDates, setMarkedDates] = useState({});
 
-  const handleDayPress = (dateString: string) => {
+  const handleDayPress = (dateString) => {
     setMarkedDates({
       ...markedDates,
-      [dateString]: { selected: true, color: '#B57EDC', textColor: '#fff' },
+      [dateString]: { selected: true, color: "#B57EDC", textColor: "#fff" },
     });
   };
 
@@ -20,8 +29,12 @@ export default function HomePage() {
         <View style={styles.statusBar} />
       </BlurView>
       <View style={styles.imagesContainer}>
-        <Image source={require("../../assets/bordeIzqSup.png")} />
-        <Image source={require("../../assets/bordeDerechoInferior.png")} style={styles.imageRight} />
+        <Image source={require("../assets/bordeIzqSup.png")} />
+        <Link href="/login"> Login </Link>
+        <Image
+          source={require("../assets/bordeDerechoInferior.png")}
+          style={styles.imageRight}
+        />
       </View>
 
       <Modal
@@ -33,9 +46,12 @@ export default function HomePage() {
         }}
       >
         <View style={styles.modalContainer}>
-          <TouchableOpacity style={styles.closeButton} onPress={() => {
-            setVisible(false);
-          }}>
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => {
+              setVisible(false);
+            }}
+          >
             <Text style={styles.closeButtonText}>Close</Text>
           </TouchableOpacity>
           <Calendario onDayPress={handleDayPress} markedDates={markedDates} />
@@ -43,16 +59,22 @@ export default function HomePage() {
       </Modal>
 
       <View style={styles.navBar}>
-        <Image source={require("../../assets/logo.png")} style={styles.logo} />
+        <Image source={require("../assets/logo.png")} style={styles.logo} />
         <View style={styles.navBarButtons}>
-          <TouchableOpacity style={styles.openButton} onPress={() => {
-            setVisible(true);
-          }}>
+          <TouchableOpacity
+            style={styles.openButton}
+            onPress={() => {
+              setVisible(true);
+            }}
+          >
             <Text style={styles.openButtonText}>Open</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.openButton} onPress={() => {
-            setVisible(true);
-          }}>
+          <TouchableOpacity
+            style={styles.openButton}
+            onPress={() => {
+              setVisible(true);
+            }}
+          >
             <Text style={styles.openButtonText}>Open</Text>
           </TouchableOpacity>
         </View>
@@ -82,21 +104,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    position: 'relative',
+    position: "relative",
   },
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     top: 30,
-    left: '20%',
+    left: "20%",
     transform: [{ translateX: -50 }],
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
     padding: 10,
     borderRadius: 20,
     zIndex: 1,
   },
   closeButtonText: {
     fontSize: 18,
-    color: '#000',
+    color: "#000",
   },
   navBar: {
     height: 90,
@@ -123,5 +145,5 @@ const styles = StyleSheet.create({
   logo: {
     position: "absolute",
     top: -30,
-  }
+  },
 });
