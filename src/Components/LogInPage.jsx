@@ -1,84 +1,91 @@
-import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { StyleSheet, Text, View, Alert, TextInput, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { supabase } from './supabaseClient';
 
 export default function RegisterPage({ navigation }) {
-
-    const handleSubmit = () => {
-        // Aquí podrías agregar lógica para manejar la creación de cuenta, como enviar los datos a un servidor.
-        navigation.navigate('Home');
-    }
-
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [session, setSession] = useState(null);
     const [emailActive, setEmailActive] = useState(false);
     const [passwordActive, setPasswordActive] = useState(false);
     const [nameActive, setNameActive] = useState(false);
     const [phoneActive, setPhoneActive] = useState(false);
 
+    useEffect(() => {
+        const getSession = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            setSession(session);
+        };
+
+        getSession();
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session);
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
+
+    const handleRegister = async () => {
+        const { error } = await supabase.auth.signUp({ email, password });
+
+        if (error) Alert.alert('Error', error.message);
+        else navigation.navigate('Home');
+    };
+
+    if (!session) {
+        return (
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.container}>
+                    <View style={styles.statusBar} />
+                    <View style={styles.backgroundContainer}>
+                        {/* Aquí van tus imágenes de fondo */}
+                    </View>
+                    <View style={styles.formContainer}>
+                        <Text style={styles.titulo}>Register</Text>
+
+                        <View style={styles.inputContainer}>
+                            <View style={[styles.beforeElement, { top: emailActive ? -50 : 0 }]}>
+                                <Text style={styles.inputText}>Email</Text>
+                            </View>
+                            <TextInput
+                                onFocus={() => setEmailActive(true)}
+                                onBlur={() => setEmailActive(false)}
+                                style={styles.input}
+                                onChangeText={(text) => setEmail(text)}
+                                value={email}
+                            />
+                        </View>
+
+                        <View style={styles.inputContainer}>
+                            <View style={[styles.beforeElement, { top: passwordActive ? -50 : 0 }]}>
+                                <Text style={styles.inputText}>Password</Text>
+                            </View>
+                            <TextInput
+                                onFocus={() => setPasswordActive(true)}
+                                onBlur={() => setPasswordActive(false)}
+                                style={styles.input}
+                                secureTextEntry={true}
+                                onChangeText={(text) => setPassword(text)}
+                                value={password}
+                            />
+                        </View>
+
+                        {/* Tus otros campos de Name y Phone */}
+                        <TouchableOpacity style={styles.button} onPress={handleRegister}>
+                            <Text style={styles.buttonText}>Register</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </TouchableWithoutFeedback>
+        );
+    }
+
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.container}>
-                <View style={styles.statusBar} />
-                <View style={styles.backgroundContainer}>
-                    <Image source={require("../../assets/vector arriba register.png")} style={styles.topImage} />
-                    <Image source={require("../../assets/vector abajo register.png")} style={styles.leftImage} />
-                </View>
-                <View style={styles.formContainer}>
-                    <Text style={styles.titulo}>Register</Text>
-
-                    <View style={styles.inputContainer}>
-                        <View style={[styles.beforeElement, { top: emailActive ? -50 : 0 }]}>
-                            <Text style={styles.inputText}>Email</Text>
-                        </View>
-                        <TextInput
-                            onFocus={() => setEmailActive(true)}
-                            onBlur={() => setEmailActive(false)}
-                            style={styles.input}
-                        />
-                    </View>
-
-                    <View style={styles.inputContainer}>
-                        <View style={[styles.beforeElement, { top: passwordActive ? -50 : 0 }]}>
-                            <Text style={styles.inputText}>Password</Text>
-                        </View>
-                        <TextInput
-                            onFocus={() => setPasswordActive(true)}
-                            onBlur={() => setPasswordActive(false)}
-                            style={styles.input}
-                            secureTextEntry={true}
-                        />
-                    </View>
-
-                    <View style={styles.inputContainer}>
-                        <View style={[styles.beforeElement, { top: nameActive ? -50 : 0 }]}>
-                            <Text style={styles.inputText}>Name</Text>
-                        </View>
-                        <TextInput
-                            onFocus={() => setNameActive(true)}
-                            onBlur={() => setNameActive(false)}
-                            style={styles.input}
-                        />
-                    </View>
-
-                    <View style={styles.inputContainer}>
-                        <View style={[styles.beforeElement, { top: phoneActive ? -50 : 0 }]}>
-                            <Text style={styles.inputText}>Phone</Text>
-                        </View>
-                        <TextInput
-                            onFocus={() => setPhoneActive(true)}
-                            onBlur={() => setPhoneActive(false)}
-                            style={styles.input}
-                            keyboardType="phone-pad"
-                        />
-                    </View>
-
-                    <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                        <Text style={styles.buttonText}>Register</Text>
-                    </TouchableOpacity>
-                </View>
-                <StatusBar style="light" />
-            </View>
-        </TouchableWithoutFeedback>
-    )
+        <View style={styles.container}>
+            <Text style={styles.titulo}>Logged in!</Text>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -166,3 +173,4 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     }
 });
+
