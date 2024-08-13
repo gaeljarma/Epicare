@@ -1,4 +1,4 @@
-import { CalendarList } from 'react-native-calendars';
+import { CalendarList, Calendar, Agenda, LocaleConfig } from 'react-native-calendars';
 import React, { useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
@@ -10,6 +10,20 @@ export default function Calendario({ onDayPress, markedDates }) {
     setSelected(dateString);
     onDayPress(dateString);
   };
+const App = () => {
+  const [selected, setSelected] = useState('');
+
+  return (
+    <Calendar
+      onDayPress={day => {
+        setSelected(day.dateString);
+      }}
+      markedDates={{
+        [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
+      }}
+    />
+  );
+};
 
   return (
     <View style={styles.container}>
