@@ -5,7 +5,9 @@ function index() {
   
   return (
     <HomePage />
+    
   )
+
 }
 
 export default index
