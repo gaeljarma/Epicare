@@ -32,7 +32,7 @@ export default function RegisterPage({ navigation }) {
         if (error) Alert.alert('Error', error.message);
         else navigation.navigate('Home');
     };
-
+    
     if (!session) {
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

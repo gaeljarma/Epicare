@@ -1,5 +1,5 @@
 import HomePage from "./src/Components/HomePage";
-import LogInPage from "./src/Components/LogInPage";
+import LogInPage from "./src/Components/SignUpPage";
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import { BlurView } from 'expo-blur';
@@ -21,7 +21,7 @@ export default function App() {
           component={HomePage}
           options={{ headerShown: false }}
         />
-        
+      
       </Stack.Navigator>
     </NavigationContainer>
   );
