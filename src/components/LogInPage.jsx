@@ -3,15 +3,21 @@ import InputWithFeedback from "./InputWithFeedback";
 import { Link, router } from "expo-router";
 import { Text } from "react-native";
 import FormularioLoginAndRegister from "./FormularioLoginAndRegister";
+import { supabase } from "./supabaseClient";
 
 export default function LogInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log(email, password);
-    // TODO: login
-    router.push("/");
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      Alert.alert("Error", error.message);
+    } else {
+      router.push("/");
+    }
   };
 
   return (

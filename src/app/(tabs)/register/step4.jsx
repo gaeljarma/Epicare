@@ -3,6 +3,7 @@ import FormularioLoginAndRegister from "../../../components/FormularioLoginAndRe
 import InputWithFeedback from "../../../components/InputWithFeedback";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
+import { supabase } from '../../../components/supabaseClient';
 
 function step3() {
   const { name, surname, email, password, tel, date } = useLocalSearchParams();
@@ -11,7 +12,7 @@ function step3() {
   const [sexo, setSexo] = useState("");
 
   const [rol, setRol] = useState("paciente");
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const userData = {
       name,
       surname,
@@ -23,9 +24,30 @@ function step3() {
       sexo,
       rol,
     };
-    //TODO: Send userData to server
-    console.log(userData);
-    router.push("/");
+
+    // Crear usuario en Supabase
+    const { error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: {
+          name: name,
+          surname: surname,
+          tel: tel,
+          date: date,
+          epilepsia: epilepsia,
+          sexo: sexo,
+          rol: rol,
+        },
+      },
+    });
+
+    if (error) {
+      Alert.alert("Error", error.message);
+    } else {
+      Alert.alert("Éxito", "Usuario registrado con éxito");
+      router.push("/");
+    }
   };
 
   return (
