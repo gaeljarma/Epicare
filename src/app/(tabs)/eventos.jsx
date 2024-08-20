@@ -1,12 +1,19 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet, Pressable  } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { View, Text, FlatList, StyleSheet, Pressable } from 'react-native';
+import { useLocalSearchParams, router } from 'expo-router';
 
 export default function EventosDia() {
   const { date, events } = useLocalSearchParams();
-  const router = useRouter();
+  const eventos = JSON.parse(events);
 
-  const eventos = events ? JSON.parse(events) : [];
+  const handleCreateEvent = () => {
+    router.push({
+      pathname: "/createEvent",
+      params: {
+        date,
+      },
+    });
+  }
 
   return (
     <View style={styles.container}>
@@ -25,12 +32,14 @@ export default function EventosDia() {
             </View>
           )}
         />
-      ) : (
-        <View style={styles.noEventsContainer}>
-          <Text style={styles.noEventsText}>No hay eventos añadidos para este día.</Text>
-        </View>
-      )}
-      <Pressable style={styles.addButton} onPress={() => router.push('/add-event')}>
+      ) :
+        (
+          <View style={styles.noEventsContainer}>
+            <Text style={styles.noEventsText}>No hay eventos añadidos para este día.</Text>
+          </View>
+        )
+      }
+      <Pressable style={styles.addButton} onPress={() => handleCreateEvent()}>
         <Text style={styles.addButtonText}>Añadir evento</Text>
       </Pressable>
     </View>
@@ -73,6 +82,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   eventItem: {
+
     marginBottom: 12,
   },
   eventTitle: {

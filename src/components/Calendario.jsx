@@ -8,12 +8,12 @@ export default function Calendario({ markedDates }) {
   const [selected, setSelected] = useState('');
   const navigation = useNavigation();
 
+  /* NO TOCAR */
   const handleDayPress = (day) => {
     const dateString = day.dateString;
     setSelected(dateString);
 
-    // Aquí podrías obtener los eventos de algún lugar, por ejemplo, una API o estado global
-    const eventosDelDia = obtenerEventosParaFecha(dateString); 
+    const eventosDelDia = obtenerEventosParaFecha(dateString);
 
     router.push({
       pathname: '/eventos',
@@ -29,6 +29,7 @@ export default function Calendario({ markedDates }) {
     };
     return eventos[date] || [];
   };
+  /*TOCAR A PARTIR DE ACA */
 
   return (
     <View style={styles.container}>
@@ -37,7 +38,7 @@ export default function Calendario({ markedDates }) {
         futureScrollRange={20}
         hideExtraDays
         minDate='2024-01-01'
-        onDayPress={handleDayPress}
+        onDayPress={handleDayPress} //NO TOCAR ESTA LINEA
         markingType='period'
         markedDates={markedDates}
       />

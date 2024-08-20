@@ -1,7 +1,7 @@
 import { useState } from "react";
 import InputWithFeedback from "./InputWithFeedback";
 import { Link, router } from "expo-router";
-import { Text } from "react-native";
+import { Text, Alert } from "react-native";
 import FormularioLoginAndRegister from "./FormularioLoginAndRegister";
 import { supabase } from "./supabaseClient";
 
