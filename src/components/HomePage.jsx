@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -9,10 +9,9 @@ import {
 } from "react-native";
 import { BlurView } from "expo-blur";
 import Calendario from "./Calendario";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 
 export default function HomePage() {
-
   const [visible, setVisible] = useState(false);
   const [markedDates, setMarkedDates] = useState({});
 
@@ -39,22 +38,24 @@ export default function HomePage() {
 
       <Modal
         animationType="slide"
-        transparent={false}
+        transparent={true}  // Cambiado a true para permitir transparencia
         visible={visible}
         onRequestClose={() => {
           setVisible(false);
         }}
       >
-        <View style={styles.modalContainer}>
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={() => {
-              setVisible(false);
-            }}
-          >
-            <Text style={styles.closeButtonText}>Close</Text>
-          </TouchableOpacity>
-          <Calendario onDayPress={handleDayPress} markedDates={markedDates} />
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => {
+                setVisible(false);
+              }}
+            >
+              <Text style={styles.closeButtonText}>Close</Text>
+            </TouchableOpacity>
+            <Calendario onDayPress={handleDayPress} markedDates={markedDates} />
+          </View>
         </View>
       </Modal>
 
@@ -100,17 +101,23 @@ const styles = StyleSheet.create({
   imageRight: {
     marginLeft: "10%",
   },
-  modalContainer: {
+  modalOverlay: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    position: "relative",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Fondo oscuro semitransparente
+  },
+  modalContainer: {
+    width: "90%",
+    height: "60%", // Puedes ajustar el tamaño del modal
+    backgroundColor: "#FFF",
+    borderRadius: 10,
+    padding: 20,
   },
   closeButton: {
     position: "absolute",
-    top: 30,
-    left: "20%",
-    transform: [{ translateX: -50 }],
+    top: 10,
+    right: 10,
     backgroundColor: "rgba(255, 255, 255, 0.8)",
     padding: 10,
     borderRadius: 20,

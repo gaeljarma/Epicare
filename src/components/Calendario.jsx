@@ -41,6 +41,10 @@ export default function Calendario({ markedDates }) {
         onDayPress={handleDayPress} //NO TOCAR ESTA LINEA
         markingType='period'
         markedDates={markedDates}
+        // PROPIEDADES AGREGADAS PARA SCROLL HORIZONTAL
+        horizontal={true}
+        pagingEnabled={true}
+        calendarWidth={320}  // Ajusta el ancho del calendario según sea necesario
       />
     </View>
   );
