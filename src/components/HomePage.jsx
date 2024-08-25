@@ -9,7 +9,10 @@ import {
 } from "react-native";
 import { BlurView } from "expo-blur";
 import Calendario from "./Calendario";
+import Navbar from "./Navbar";
 import { Link } from "expo-router";
+import CardiacFrecuence from "./CardiacFrecuence";
+import HomePageBox from "./HomePageBox";
 
 export default function HomePage() {
   const [visible, setVisible] = useState(false);
@@ -24,21 +27,27 @@ export default function HomePage() {
 
   return (
     <View style={styles.container}>
-      <BlurView intensity={40}>
-        <View style={styles.statusBar} />
-      </BlurView>
-      <View style={styles.imagesContainer}>
+      <View style={styles.imagesContainer} className="pb-10">
         <Image source={require("../assets/bordeIzqSup.png")} />
-        <Link href="/login"> Login </Link>
+
         <Image
           source={require("../assets/bordeDerechoInferior.png")}
           style={styles.imageRight}
         />
       </View>
 
+      <View className="flex flex-1 z-10 h-full justify-center">
+        <CardiacFrecuence />
+        <View className="flex flex-row my-6">
+          <HomePageBox title="Ayuda" />
+          <HomePageBox title="Ayuda" />
+        </View>
+        <CardiacFrecuence />
+      </View>
+
       <Modal
         animationType="slide"
-        transparent={true}  // Cambiado a true para permitir transparencia
+        transparent={true}
         visible={visible}
         onRequestClose={() => {
           setVisible(false);
@@ -59,27 +68,7 @@ export default function HomePage() {
         </View>
       </Modal>
 
-      <View style={styles.navBar}>
-        <Image source={require("../assets/logo.png")} style={styles.logo} />
-        <View style={styles.navBarButtons}>
-          <TouchableOpacity
-            style={styles.openButton}
-            onPress={() => {
-              setVisible(true);
-            }}
-          >
-            <Text style={styles.openButtonText}>Open</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.openButton}
-            onPress={() => {
-              setVisible(true);
-            }}
-          >
-            <Text style={styles.openButtonText}>Open</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <Navbar setVisible={setVisible} />
     </View>
   );
 }
@@ -95,6 +84,7 @@ const styles = StyleSheet.create({
   },
   imagesContainer: {
     flex: 1,
+    position: "absolute",
     justifyContent: "space-between",
     height: "100%",
   },
@@ -127,28 +117,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#000",
   },
-  navBar: {
-    height: 90,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
-    backgroundColor: "#4B1C71",
-    paddingHorizontal: 20,
-  },
-  navBarButtons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "90%",
-  },
-  openButton: {
-    padding: 10,
-    backgroundColor: "#fff",
-    borderRadius: 5,
-  },
-  openButtonText: {
-    color: "#4B1C71",
-    fontSize: 18,
-  },
+
   logo: {
     position: "absolute",
     top: -30,

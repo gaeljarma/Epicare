@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import InputWithFeedback from '../../components/InputWithFeedback';
+import InputWithFeedback from '../components/InputWithFeedback';
 import { useLocalSearchParams, router } from 'expo-router';
 
 export default function createEvent() {

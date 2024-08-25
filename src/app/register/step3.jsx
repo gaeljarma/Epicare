@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import FormularioLoginAndRegister from "../../../components/FormularioLoginAndRegister";
-import InputWithFeedback from "../../../components/InputWithFeedback";
+import FormularioLoginAndRegister from "../../components/FormularioLoginAndRegister";
+import InputWithFeedback from "../../components/InputWithFeedback";
 import { router, useLocalSearchParams } from "expo-router";
 function step3() {
 

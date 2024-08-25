@@ -16,7 +16,7 @@ export default function LogInPage() {
     if (error) {
       Alert.alert("Error", error.message);
     } else {
-      router.push("/");
+      router.push("/app");
     }
   };
 
