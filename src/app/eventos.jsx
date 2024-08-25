@@ -1,11 +1,13 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet, Pressable } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
+import { supabase } from '../components/supabaseClient'; // Asegúrate de que esta importación sea correcta
 
 export default function EventosDia() {
-  const { date, events } = useLocalSearchParams();
-  const eventos = JSON.parse(events);
-
+  const { date } = useLocalSearchParams();
+  const [eventos, setEventos] = useState([]);
+  const [loading, setLoading] = useState(true); // Estado para manejar la carga
+  
   const handleCreateEvent = () => {
     router.push({
       pathname: "/createEvent",
@@ -13,6 +15,33 @@ export default function EventosDia() {
         date,
       },
     });
+  };
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('events')
+        .select('*')
+        .eq('fecha', date); // Asegúrate de que 'fecha' es el nombre de la columna correcta en tu tabla
+
+      if (error) {
+        console.error("Error al obtener los eventos:", error.message);
+      } else {
+        setEventos(data);
+      }
+      setLoading(false);
+    };
+
+    fetchEvents();
+  }, [date]);
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#4B1C71" />
+      </View>
+    );
   }
 
   return (
