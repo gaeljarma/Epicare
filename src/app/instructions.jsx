@@ -41,7 +41,7 @@ function instructions() {
               disabled={instructionIndex === 0}
               onPress={() => setInstructionIndex(instructionIndex - 1)}
               className={`px-2 rounded-lg py-1 ${
-                instructionIndex === 0 ? "bg-[#7F4CA5]/50" : "bg-[#7F4CA5]"
+                instructionIndex === 0 ? "bg-[#7F4CA5]/20" : "bg-[#7F4CA5]"
               }`}
             >
               <Text className="text-lg text-white text-center leading-6">
