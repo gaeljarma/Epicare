@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import InputWithFeedback from '../components/InputWithFeedback';
 import { useLocalSearchParams, router } from 'expo-router';
+import { supabase } from '../components/supabaseClient';
+import { getUserId } from '../utils/getUserId';
 
 export default function createEvent() {
     const { date } = useLocalSearchParams();
@@ -9,19 +11,43 @@ export default function createEvent() {
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
 
-    const handleSubmit = () => {
-        const newEvent = {
-            title: title,
-            description: desc,
-            date: date,
-        };
+    const handleSubmit = async() => {
+        const { data: { user }, error: userError } = await supabase.auth.getUser(); // Obtener el usuario autenticado
 
-        // Aquí es donde enviarías 'newEvent' a Supabase
-        console.log(newEvent);
+    if (userError) {
+        console.error("Error al obtener el usuario:", userError.message);
+        return;
+    }
 
-        // Después de guardar el evento, puedes navegar de regreso o mostrar un mensaje de éxito
-        router.back();  // Navega de regreso a la pantalla anterior
+    if (!user) {
+        console.error("User not logged in");
+        return;
+    }
+
+    const newEvent = {
+        title: title,
+        description: desc,
+        fecha: date,
+        profiles_id: user.id,  // Asegúrate de que el ID del usuario autenticado se utiliza aquí
     };
+
+    try {
+        const { data, error } = await supabase
+            .from('events')
+            .insert([newEvent]);
+
+        if (error) {
+            console.error("Error al crear el evento:", error.message);
+            alert("Error al crear el evento: " + error.message);
+        } else {
+            console.log("Evento creado con éxito:", data);
+            router.back();  // Navega de regreso a la pantalla anterior
+        }
+    } catch (err) {
+        console.error("Error inesperado:", err.message);
+        alert("Error inesperado: " + err.message);
+    }
+};
 
     return (
         <View style={styles.container}>
