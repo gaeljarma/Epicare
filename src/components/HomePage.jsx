@@ -39,8 +39,12 @@ export default function HomePage() {
       <View className="flex flex-1 z-10 h-full justify-center">
         <CardiacFrecuence />
         <View className="flex flex-row my-6">
-          <HomePageBox title="Ayuda" />
-          <HomePageBox title="Ayuda" />
+          <HomePageBox title="Ayuda" href="/instructions">
+            <Image source={require("../assets/ayuda.png")}></Image>
+          </HomePageBox>
+          <HomePageBox title="Estado de animo">
+            <Image source={require("../assets/animo.png")}></Image>
+          </HomePageBox>
         </View>
         <CardiacFrecuence />
       </View>

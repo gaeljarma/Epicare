@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet, Pressable } from 'react-native';
-import { useLocalSearchParams, router } from 'expo-router';
+import React from "react";
+import EveryDayEvents from "../components/EveryDayEvents";
+import { View, Text, FlatList, StyleSheet, Pressable } from "react-native";
+import { useLocalSearchParams, router } from "expo-router";
 
 export default function EventosDia() {
   const { date, events } = useLocalSearchParams();
@@ -13,14 +14,23 @@ export default function EventosDia() {
         date,
       },
     });
-  }
+  };
 
   return (
     <View style={styles.container}>
-      <Pressable style={styles.closeButton} onPress={() => router.back()}>
-        <Text style={styles.closeButtonText}>X</Text>
-      </Pressable>
-      <Text style={styles.title}>Eventos del {date}</Text>
+      <View className="flex flex-row ">
+        <Pressable
+          className="bg-black w-8 aspect-square rounded-full flex items-center justify-center"
+          onPress={() => router.back()}
+        >
+          <Text style={styles.closeButtonText}>X</Text>
+        </Pressable>
+        <Text style={styles.title}>Eventos del {date}</Text>
+      </View>
+
+      <EveryDayEvents />
+      <Text className="text-2xl font-bold my-4">Tus eventos:</Text>
+
       {eventos.length > 0 ? (
         <FlatList
           data={eventos}
@@ -32,13 +42,13 @@ export default function EventosDia() {
             </View>
           )}
         />
-      ) :
-        (
-          <View style={styles.noEventsContainer}>
-            <Text style={styles.noEventsText}>No hay eventos añadidos para este día.</Text>
-          </View>
-        )
-      }
+      ) : (
+        <View style={styles.noEventsContainer}>
+          <Text style={styles.noEventsText}>
+            No hay eventos añadidos para este día.
+          </Text>
+        </View>
+      )}
       <Pressable style={styles.addButton} onPress={() => handleCreateEvent()}>
         <Text style={styles.addButtonText}>Añadir evento</Text>
       </Pressable>
@@ -52,42 +62,42 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   closeButton: {
-    position: 'absolute',
+    position: "absolute",
     top: 40,
     left: 20,
     zIndex: 1,
-    backgroundColor: 'black',
+    backgroundColor: "black",
     borderRadius: 12,
     padding: 8,
   },
   closeButtonText: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   title: {
+    flex: 1,
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 16,
-    textAlign: 'center',
+    textAlign: "center",
   },
   noEventsContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   noEventsText: {
     fontSize: 16,
-    color: 'gray',
-    textAlign: 'center',
+    color: "gray",
+    textAlign: "center",
   },
   eventItem: {
-
     marginBottom: 12,
   },
   eventTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   eventDescription: {
     fontSize: 14,
@@ -96,15 +106,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#4B1C71",
     padding: 16,
     borderRadius: 8,
-    alignItems: 'center',
-    position: 'absolute',
+    alignItems: "center",
+    position: "absolute",
     bottom: 20,
     left: 20,
     right: 20,
   },
   addButtonText: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });

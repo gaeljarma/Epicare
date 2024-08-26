@@ -11,6 +11,7 @@ export default function LogInPage() {
 
   const handleSubmit = async () => {
     console.log(email, password);
+
     const { error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {

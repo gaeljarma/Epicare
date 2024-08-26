@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Image, Pressable } from "react-native";
+import { View, Text, Image, Pressable, ScrollView } from "react-native";
 import { router } from "expo-router";
 function instructions() {
   const [instructionIndex, setInstructionIndex] = useState(0);
@@ -16,18 +16,18 @@ function instructions() {
 
   return (
     <View className="h-full w-full bg-[#E7C1E88A] ">
-      <View className="flex bg-[#F2F2F2] h-[50%] w-64 m-auto border border-[#7950B2] rounded-lg px-4 py-6">
+      <View className="flex bg-[#F2F2F2] min-h-[50%] w-64 m-auto border border-[#7950B2] rounded-lg px-4 py-6">
         <Pressable
           className="absolute right-2 top-2"
-          onPress={() => router.push()}
+          onPress={() => router.push("/app")}
         >
           <Image source={require("../assets/close.png")}></Image>
         </Pressable>
-        <View className="flex-1 justify-center">
+        <ScrollView className="flex-1 py-2" contentContainerStyle={{ flexGrow: 1 }}>
           <Text className="mb-4 text-2xl text-[#7F4CA5] font-bold text-center">
             {instructionTexts[instructionIndex]}
           </Text>
-        </View>
+        </ScrollView>
 
         <View className="h-12 mb-4 bg-red-500 w-full">
           <Text className="mb-6 text-2xl text-[#7F4CA5] font-bold text-center">
@@ -50,7 +50,12 @@ function instructions() {
             </Pressable>
           }
           <Pressable
-            onPress={() => setInstructionIndex(instructionIndex + 1)}
+            onPress={() => {
+              setInstructionIndex(instructionIndex + 1);
+              if (instructionIndex === 7) {
+                router.push("/app");
+              }
+            }}
             className="bg-[#7F4CA5] px-2 rounded-lg py-1"
           >
             <Text className="text-lg text-white text-center leading-6">

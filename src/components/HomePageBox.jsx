@@ -1,12 +1,18 @@
 import React from "react";
-import { Text, View } from "react-native";
-
-function HomePageBox({ title, imageURL }) {
+import { Pressable, Text, View } from "react-native";
+import { router } from "expo-router";
+function HomePageBox({ title, children, href = "" }) {
   return (
-    <View className="w-5/12  mx-auto aspect-square p-4 rounded-lg bg-[#7f4ca573]">
-      <Text className="text-lg text-[#4B1C71] font-bold text-center"> {title} </Text>
-      {/* <Image source={require(imageURL)}></Image> */}
-    </View>
+    <Pressable
+      className="w-5/12 mx-auto aspect-square p-4 px-1 rounded-lg bg-[#c09ccc]"
+      onPress={() => router.push(href)}
+    >
+      <Text className="text-lg text-[#4B1C71] font-bold text-center">
+        
+        {title}
+      </Text>
+      <View className="mt-1 flex-1 h-full flex flex-col items-center">{children}</View>
+    </Pressable>
   );
 }
 

@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 
 function CardiacFrecuence() {
   return (
-    <View className=" w-11/12 mx-auto aspect-[5/2] p-2 rounded-lg bg-[#7F4CA573]">
+    <View className=" w-11/12 mx-auto aspect-[5/2] p-2 rounded-lg bg-[#c09ccc]">
       <View>
         <Text className="text-[#FF2E56] text-xl font-bold">
           Frecuencia Cardiaca
