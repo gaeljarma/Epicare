@@ -28,7 +28,7 @@ export default function createEvent() {
         title: title,
         description: desc,
         fecha: date,
-        profiles_id: user.id,  // Asegúrate de que el ID del usuario autenticado se utiliza aquí
+        profiles_id: user.id, 
     };
 
     try {

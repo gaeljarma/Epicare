@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { supabase } from '../components/supabaseClient'; // Asegúrate de que esta importación sea correcta
-
+import EveryDayEvents from '../components/EveryDayEvents';
 
 export default function EventosDia() {
   const { date } = useLocalSearchParams();
@@ -16,6 +16,7 @@ export default function EventosDia() {
         date,
       },
     });
+  };
 
   useEffect(() => {
     const fetchEvents = async () => {
