@@ -44,12 +44,22 @@ function EveryDayEvents() {
           </Pressable>
         </View>
       </View>
-      <View className="flex flex-row gap-2 items-center my-4">
+      <View className="flex flex-row gap-2 items-center my-2 border-b border-gray-200 py-1">
         <Text className="text-lg font-semibold mb-2">
           Cuantas horas dormiste:
         </Text>
         <TextInput
           placeholder="1"
+          keyboardType="numeric"
+          className="border border-gray-300 rounded-lg px-2 py-1 w-[10%] text-center"
+        />
+      </View>
+      <View className="flex flex-row gap-2 items-center my-2">
+        <Text className="text-lg font-semibold mb-2">
+          Cuantas veces convulsionaste:
+        </Text>
+        <TextInput
+          placeholder="0"
           keyboardType="numeric"
           className="border border-gray-300 rounded-lg px-2 py-1 w-[10%] text-center"
         />
