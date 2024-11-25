@@ -15,7 +15,7 @@ export default function LogInPage() {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
-      Alert.alert("Error", error.message);
+     alert("Error", error.message);
     } else {
       router.push("/app");
     }

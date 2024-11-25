@@ -9,7 +9,7 @@ function Help() {
     try {
       const supported = await Linking.canOpenURL(whatsappUrl);
       if (!supported) {
-        Alert.alert(
+        alert(
           "Error",
           "WhatsApp no está disponible en este dispositivo."
         );
@@ -17,7 +17,7 @@ function Help() {
       }
       await Linking.openURL(whatsappUrl);
     } catch (error) {
-      Alert.alert("Error", "Hubo un problema al abrir WhatsApp.");
+      alert("Error", "Hubo un problema al abrir WhatsApp.");
     }
   };
   return (

@@ -3,7 +3,7 @@ import FormularioLoginAndRegister from "../../components/FormularioLoginAndRegis
 import InputWithFeedback from "../../components/InputWithFeedback";
 import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { supabase } from '../../components/supabaseClient';
+import { supabase } from "../../components/supabaseClient";
 
 function step3() {
   const { name, surname, email, password, tel, date } = useLocalSearchParams();
@@ -43,9 +43,9 @@ function step3() {
     });
 
     if (error) {
-      Alert.alert("Error", error.message);
+      alert("Error", error.message);
     } else {
-      Alert.alert("Éxito", "Usuario registrado con éxito");
+      alert("Éxito", "Usuario registrado con éxito");
       router.push("/app");
     }
   };
