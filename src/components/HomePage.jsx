@@ -47,7 +47,11 @@ export default function HomePage() {
           </HomePageBox>
         </View>
         <CardiacFrecuence />
+        <Link href="/components/Prediction" style={styles.navButton}>
+          <Text style={styles.navButtonText}>Go to Prediction</Text>
+        </Link>
       </View>
+      
 
       <Modal
         animationType="slide"
@@ -121,7 +125,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#000",
   },
-
+  navButton: {
+    backgroundColor: "#4B1C71",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  navButtonText: {
+    color: "#FFF",
+    fontSize: 16,
+  },
   logo: {
     position: "absolute",
     top: -30,
