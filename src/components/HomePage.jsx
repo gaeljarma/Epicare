@@ -11,10 +11,9 @@ import {
 import { BlurView } from "expo-blur";
 import Calendario from "./Calendario";
 import Navbar from "./Navbar";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import CardiacFrecuence from "./CardiacFrecuence";
 import HomePageBox from "./HomePageBox";
-
 
 export default function HomePage() {
   const [visible, setVisible] = useState(false);
@@ -32,21 +31,19 @@ export default function HomePage() {
       name: "Bautista Loisi",
       phone: "+54 9 11 5314 4000",
       email: "bautistaloisi@ort.edu.ar",
-      note: "Bauti es mi sobrino"
-
+      note: "Bauti es mi sobrino",
     },
     {
       name: "Gael Jarma",
       phone: "+54 9 11 5412 5653",
       email: "gaeljarma@ort.edu.ar",
-      note: ""
-
+      note: "",
     },
     {
       name: "Santiago Gaviria",
       phone: "+54 9 11 1234 5678",
       email: "santiagogaviria@ort.edu.ar",
-      note: ""
+      note: "",
     },
   ];
   return (
@@ -85,7 +82,7 @@ export default function HomePage() {
                       phone: contact.phone,
                       email: contact.email,
                       note: contact.note,
-                      profile: index+1
+                      profile: index + 1,
                     },
                   })
                 }
@@ -102,6 +99,9 @@ export default function HomePage() {
             ))}
           </View>
         </View>
+        <Pressable onPress={() => router.push("/prediction")}>
+          <Text>Prediction</Text>
+        </Pressable>
       </View>
 
       <Modal

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, Button } from "react-native";
 import * as tf from "@tensorflow/tfjs";
-// import { bundleResourceIO } from "@tensorflow/tfjs-react-native";
+import * as FileSystem from "expo-file-system";
+
+
+//import { bundleResourceIO } from "@tensorflow/tfjs-react-native";
 function PredictionScreen() {
   const [model, setModel] = useState(null);
   const [param1, setParam1] = useState("");
@@ -16,17 +19,24 @@ function PredictionScreen() {
   ];
   useEffect(() => {
     const loadModel = async () => {
-      const modelJson = require("../assets/models/model.json");
-      //ESTA CODIGO ESTA COMENTADO PORQUE LA FORMA DE CARGAR EL MODELO QUE USAN ESTA DANDO EL PROBLEMA DE LA NAVEGACION ENTRE PAGINAS
-      //PRUEBEN OTRA FORMA DE CARGAR EL MODELO
-      //const modelWeight = require('../assets/models/group1-shard1of1.bin');
-      //   const loadedModel = await tf.loadLayersModel(
-      //     bundleResourceIO(modelJson, modelWeight)
-      //   );
-      setModel(loadedModel);
+      try {
+        await tf.ready(); // Asegúrate de que TensorFlow está listo
+
+        // Ruta local o URL remota donde está almacenado el modelo
+        
+        const modelPath = "file://C:/Users/Facu/Documents/Facundo/ProyectoGaeEpicare/Epicare/src/assets/models/model.json"; // Cambia esto según tu fuente de modelo
+
+        // Carga el modelo directamente desde el almacenamiento remoto o local
+        const loadedModel = await tf.loadLayersModel(modelPath);
+        setModel(loadedModel);
+      } catch (error) {
+        console.error("Error loading TensorFlow model:", error);
+      }
     };
+
     loadModel();
   }, []);
+
   const handlePrediction = async () => {
     if (model) {
       const inputTensor = tf.tensor([
@@ -46,21 +56,12 @@ function PredictionScreen() {
   };
   return (
     <View>
-      {model ? (
-        <>
-          <Button
-            title="Randomize Parameters"
-            onPress={handleRandomSelection}
-          />
-          <Text>Parameter 1: {param1}</Text>
-          <Text>Parameter 2: {param2}</Text>
-          <Text>Parameter 3: {param3}</Text>
-          <Button title="Predict" onPress={handlePrediction} />
-          {prediction && <Text>Prediction: {prediction}</Text>}
-        </>
-      ) : (
-        <Text>Loading model...</Text>
-      )}
+      <Button title="Randomize Parameters" onPress={handleRandomSelection} />
+      <Text>Parameter 1: {param1}</Text>
+      <Text>Parameter 2: {param2}</Text>
+      <Text>Parameter 3: {param3}</Text>
+      <Button title="Predict" onPress={handlePrediction} />
+      {prediction && <Text>Prediction: {prediction}</Text>}
     </View>
   );
 }

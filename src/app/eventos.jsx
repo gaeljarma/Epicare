@@ -50,7 +50,7 @@ export default function EventosDia() {
       <View className="flex flex-row ">
         <Pressable
           className="bg-black w-8 aspect-square rounded-full flex items-center justify-center"
-          onPress={() => router.back()}
+          onPress={() => router.push("/")}
         >
           <Text style={styles.closeButtonText}>X</Text>
         </Pressable>
