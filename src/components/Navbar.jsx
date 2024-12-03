@@ -6,7 +6,7 @@ function Navbar({ setVisible }) {
   return (
     <View className="bg-[#4B1C71] py-2">
       <View className="flex-row justify-between px-4 py-2">
-        <NavbarImage>
+        <NavbarImage handlePress={() => router.push("/profile")}>
           <Image source={require("../assets/profile.png")}></Image>
         </NavbarImage>
 

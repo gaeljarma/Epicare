@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import Slider from "@react-native-community/slider";
 import { Audio } from "expo-av";
 export default function AudioPlayer({ sound }) {
@@ -9,7 +9,6 @@ export default function AudioPlayer({ sound }) {
   const [duration, setDuration] = useState(0);
 
   useEffect(() => {
-    
     const loadAudio = async () => {
       if (audioObject) {
         await audioObject.unloadAsync(); // Descargar audio previo
@@ -42,11 +41,14 @@ export default function AudioPlayer({ sound }) {
 
   return (
     <View className="w-full h-full px-4 flex gap-1 flex-row">
-      <Button
-        onPress={togglePlayback}
-        className="aspect-square"
-        title={isPlaying ? "A" : "B"}
-      />
+      <Pressable onPress={togglePlayback} className=" h-2aspect-square items-center justify-center">
+        {isPlaying ? (
+          <Image source={require("../assets/pause.png")} />
+        ) : (
+          <Image source={require("../assets/play.png")} />
+
+        )}
+      </Pressable>
       <Slider
         style={styles.slider}
         minimumValue={0}
