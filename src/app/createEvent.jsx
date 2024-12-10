@@ -41,7 +41,7 @@ export default function createEvent() {
             alert("Error al crear el evento: " + error.message);
         } else {
             console.log("Evento creado con éxito:", data);
-            router.push("/");  // Navega de regreso a la pantalla anterior
+            router.push("/app");  // Navega de regreso a la pantalla anterior
         }
     } catch (err) {
         console.error("Error inesperado:", err.message);
@@ -52,7 +52,7 @@ export default function createEvent() {
     return (
         <View style={styles.container}>
             {/* Botón "X" para volver */}
-            <Pressable style={styles.closeButton} onPress={() => router.push("/")}>
+            <Pressable style={styles.closeButton} onPress={() => router.push("/app")}>
                 <Text style={styles.closeButtonText}>X</Text>
             </Pressable>
 

@@ -125,7 +125,7 @@ function EveryDayEvents() {
         </View>
         <Pressable
             onPress={handleSubmit}
-            className="bg-blue-500 px-4 py-2 rounded-md mt-4"
+            className="bg-[#4B1C71] px-4 py-2 rounded-md mt-4"
         >
             <Text className="text-white text-center">Guardar</Text>
         </Pressable>
