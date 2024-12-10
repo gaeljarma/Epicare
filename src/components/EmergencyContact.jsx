@@ -1,5 +1,7 @@
 import { router } from "expo-router";
-import React, { useState } from "react";
+import { supabase } from '../components/supabaseClient';
+import { Alert } from "react-native"; // Importar Alert correctamente
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,6 +17,7 @@ function EmergencyContact({
   email,
   note,
   profile,
+  contactId,
   hasNote = true,
 }) {
   // Crear estados para los valores iniciales y editables
@@ -23,23 +26,76 @@ function EmergencyContact({
   const [editableEmail, setEditableEmail] = useState(email);
   const [editableNote, setEditableNote] = useState(note);
 
-  const handleSave = () => {
-    const contactProfile = profile;
-    const data = {
-      name: editableName,
-      phone: editablePhone,
-      email: editableEmail,
-      note: editableNote, //Solo si hasNote es verdadero, osea si es el perfil del usuario no iria esto.
-    };
-    if (contactProfile === "0") {
-      // Es la informacion del usuario.
-      // Aquí puedes realizar la acción de guardar los cambios en la base de datos
-    } else {
-      // Es la informacion del contacto de emergencia.
-      // Aquí puedes realizar la acción de guardar los cambios en la base de datos
+  const handleSave = async () => {
+    try {
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError) throw userError;
+      if (!user) {
+        Alert.alert("Error", "No estás autenticado.");
+        return;
+      }
+  
+      const profiles_id = user.id;
+  
+      // Crear objeto de datos a guardar
+      const updatedContact = {
+        name: editableName,
+        phone: editablePhone,
+        email: editableEmail,
+        note: editableNote,  // Solo si hasNote es verdadero
+        profiles_id: profiles_id,
+      };
+  
+      // Verificar si ya existe un contacto con el mismo nombre
+      const { data, error: fetchError } = await supabase
+        .from("contacts")
+        .select("*")
+        .eq("name", editableName)
+        .single(); // Recuperamos solo un registro
+  
+      if (fetchError && fetchError.code !== 'PGRST116') {
+        // 'PGRST116' significa que no se encontró el contacto con ese nombre
+        console.error("Error al verificar el contacto:", fetchError.message);
+        Alert.alert("Error", "Hubo un problema al verificar el contacto.");
+        return;
+      }
+  
+      if (data) {
+        // Si ya existe un contacto con ese nombre, lo actualizamos
+        console.log("Contacto encontrado, actualizando con ID:", data.id);
+        const response = await supabase
+          .from("contacts")
+          .upsert([{ ...updatedContact, id: data.id }]);
+  
+        if (response.error) {
+          console.error("Error al guardar el contacto:", response.error.message);
+          Alert.alert("Error", `Hubo un problema al guardar el contacto: ${response.error.message}`);
+        } else {
+          console.log("Contacto guardado:", response.data);
+          Alert.alert("Éxito", "Contacto guardado con éxito.");
+        }
+      } else {
+        // Si no existe, creamos un nuevo contacto
+        console.log("Insertando nuevo contacto");
+        const response = await supabase
+          .from("contacts")
+          .upsert([updatedContact]);
+  
+        if (response.error) {
+          console.error("Error al guardar el contacto:", response.error.message);
+          Alert.alert("Error", `Hubo un problema al guardar el contacto: ${response.error.message}`);
+        } else {
+          console.log("Contacto guardado:", response.data);
+          Alert.alert("Éxito", "Contacto guardado con éxito.");
+        }
+      }
+    } catch (error) {
+      console.error("Error al guardar:", error.message);
+      Alert.alert("Error", "Hubo un error al guardar los cambios.");
     }
   };
-
+  
+  
   return (
     <View className="h-[480px] w-72 flex flex-col items-center bg-white px-4 py-6 rounded-lg border border-[#7950B2]">
       <Pressable
@@ -100,7 +156,7 @@ function EmergencyContact({
       </ScrollView>
       <Pressable
         className="w-36 mx-auto bg-[#6F26AB] px-2 rounded-lg py-1 mt-2"
-        onPress={() => saveInfo()}
+        onPress={handleSave}
       >
         <Text className="text-lg text-white text-center font-bold">
           Guardar
