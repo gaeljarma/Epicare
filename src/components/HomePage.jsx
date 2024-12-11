@@ -18,7 +18,7 @@ import HomePageBox from "./HomePageBox";
 export default function HomePage() {
   const [visible, setVisible] = useState(false);
   const [markedDates, setMarkedDates] = useState({});
-
+  
   const handleDayPress = (dateString) => {
     setMarkedDates({
       ...markedDates,

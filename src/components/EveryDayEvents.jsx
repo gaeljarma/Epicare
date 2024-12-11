@@ -7,18 +7,18 @@ import { supabase } from '../components/supabaseClient'; // Ajusta el path segú
 import { useLocalSearchParams } from "expo-router";
 
 function EveryDayEvents() {
-  const { date } = useLocalSearchParams(); // Obtenemos la fecha desde los parámetros locales
-  const [medice, setMedice] = useState(false);
-  const [state, setState] = useState(1); // 0 - Sad, 1 - Empty, 2 - Happy
-  const [sleepHours, setSleepHours] = useState("");
-  const [seizureCount, setSeizureCount] = useState("");
-
-  const handleSubmit = async () => {
+    const { date } = useLocalSearchParams(); // Obtenemos la fecha desde los parámetros locales
+    const [medice, setMedice] = useState(false);
+    const [state, setState] = useState(1); // 0 - Sad, 1 - Empty, 2 - Happy
+    const [sleepHours, setSleepHours] = useState("");
+    const [seizureCount, setSeizureCount] = useState("");
+  
+    const handleSubmit = async () => {
       if (!sleepHours || seizureCount === "") {
           Alert.alert("Error", "Por favor completa todos los campos.");
           return;
       }
-
+  
       try {
           const { data: { user }, error: userError } = await supabase.auth.getUser();
           if (userError) throw userError;
@@ -26,43 +26,46 @@ function EveryDayEvents() {
               console.error("No user logged in");
               return;
           }
-
+  
           const profiles_id = user.id;
-
+  
           // Verificar si ya existe un registro para la fecha
           const { data: existingData, error: fetchError } = await supabase
               .from("dates")
               .select("id")
               .eq("date", date)
               .single();
-
+  
           if (fetchError && fetchError.code !== "PGRST116") { // Ignorar el error si no se encuentra un registro
               console.error("Error al verificar datos existentes:", fetchError.message);
               return;
           }
-
-          let dates_id;
-
+  
           if (existingData) {
-              dates_id = existingData.id;
-              console.log("Registro existente encontrado:", existingData);
-          } else {
-              const { data: dateData, error: insertError } = await supabase
-                  .from("dates")
-                  .insert([{ date: date, profiles_id }])
-                  .select()
-                  .single();
-
-              if (insertError) throw insertError;
-              dates_id = dateData.id;
+              // Si ya existen datos para esa fecha, no insertar nada nuevo y mostrar un mensaje
+              Alert.alert("Aviso", "Ya existen datos para esta fecha.");
+              return;
           }
-
+  
+          let dates_id;
+  
+          // Si no existen datos, insertar los nuevos
+          const { data: dateData, error: insertError } = await supabase
+              .from("dates")
+              .insert([{ date: date, profiles_id }])
+              .select()
+              .single();
+  
+          if (insertError) throw insertError;
+          dates_id = dateData.id;
+  
           // Insertar los datos relacionados
           await supabase.from("sueño").insert([{ dates_id, cantHoras: parseFloat(sleepHours) }]);
           await supabase.from("convulsion").insert([{ dates_id, cantidad: parseInt(seizureCount) }]);
           await supabase.from("animo").insert([{ dates_id, mood_state: state }]);
           await supabase.from("medication").insert([{ dates_id, consumido: medice }]);
-
+  
+          // Solo mostrar el mensaje de éxito si no hay datos existentes
           Alert.alert("Éxito", "Datos guardados exitosamente.");
       } catch (err) {
           console.error("Error inesperado:", err.message);

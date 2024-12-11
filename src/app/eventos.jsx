@@ -21,15 +21,29 @@ export default function EventosDia() {
   useEffect(() => {
     const fetchEvents = async () => {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('events')
-        .select('*')
-        .eq('fecha', date); // Asegúrate de que 'fecha' es el nombre de la columna correcta en tu tabla
+      try {
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError) throw userError;
+        if (!user) {
+          console.error("No user logged in");
+          return;
+        }
 
-      if (error) {
-        console.error("Error al obtener los eventos:", error.message);
-      } else {
-        setEventos(data);
+        const profiles_id = user.id;
+
+        const { data, error } = await supabase
+          .from('events')
+          .select('*')
+          .eq('fecha', date)
+          .eq('profiles_id', profiles_id); // Filtramos los eventos por el ID del usuario
+
+        if (error) {
+          console.error("Error al obtener los eventos:", error.message);
+        } else {
+          setEventos(data);
+        }
+      } catch (err) {
+        console.error("Error al obtener los eventos:", err.message);
       }
       setLoading(false);
     };

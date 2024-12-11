@@ -13,7 +13,6 @@ export default function createEvent() {
 
     const handleSubmit = async() => {
         const { data: { user }, error: userError } = await supabase.auth.getUser(); // Obtener el usuario autenticado
-
     if (userError) {
         console.error("Error al obtener el usuario:", userError.message);
         return;
