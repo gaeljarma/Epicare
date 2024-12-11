@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, View, Image } from "react-native";
 
 function CardiacFrecuence() {
   return (
@@ -13,9 +13,7 @@ function CardiacFrecuence() {
         <Text className="text-[#4B1C71] text-lg font-bold">
           Ultima medicion:
         </Text>
-        {
-          // TODO: MEDICION
-        }
+        <Image source={require("../assets/frecuenciaCardiaca.png")} className="mt-6 ml-4"></Image>
       </View>
       <Text className="text-3xl">
         67

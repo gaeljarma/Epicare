@@ -9,6 +9,20 @@ export default function AudioPlayer({ sound }) {
   const [duration, setDuration] = useState(0);
 
   useEffect(() => {
+    const configureAudio = async () => {
+      try {
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: false,
+          staysActiveInBackground: false,
+          playsInSilentModeIOS: true, // Asegura que el audio funcione en modo silencioso
+          shouldDuckAndroid: true,
+        });
+      } catch (error) {
+        console.error("Error configurando el audio:", error);
+      }
+    };
+  
+    configureAudio();
     const loadAudio = async () => {
       if (audioObject) {
         await audioObject.unloadAsync(); // Descargar audio previo
@@ -29,6 +43,7 @@ export default function AudioPlayer({ sound }) {
   }, [sound]);
 
   const togglePlayback = async () => {
+    console.log("Clicked")
     if (audioObject) {
       if (isPlaying) {
         await audioObject.pauseAsync();
@@ -69,5 +84,5 @@ const styles = StyleSheet.create({
   slider: {
     width: "100%",
     height: 40,
-  },
+  }
 });

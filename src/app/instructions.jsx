@@ -19,14 +19,14 @@ function instructions() {
 
   const audios = [
     // require("../audio/audio.mpeg"),
-    require("../audio/audio1.mpeg"),
-    require("../audio/audio2.mpeg"),
-    require("../audio/audio3.mpeg"),
-    require("../audio/audio4.mpeg"),
-    require("../audio/audio5.mpeg"),
-    require("../audio/audio6.mpeg"),
-    require("../audio/audio7.mpeg"),
-    require("../audio/audio8.mpeg"),
+    require("../audio/audio1.mp3"),
+    require("../audio/audio2.mp3"),
+    require("../audio/audio3.mp3"),
+    require("../audio/audio4.mp3"),
+    require("../audio/audio5.mp3"),
+    require("../audio/audio6.mp3"),
+    require("../audio/audio7.mp3"),
+    require("../audio/audio8.mp3"),
 
   ];
 

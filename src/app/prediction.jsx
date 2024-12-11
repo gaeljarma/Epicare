@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text } from 'react-native';
+import { View, TextInput, Button, Text, Pressable, Image } from 'react-native';
+import { router } from 'expo-router';
+
 import axios from 'axios';
 
 const API_URL = 'http://192.168.86.228:5000/predict';
@@ -28,6 +30,12 @@ export default function App() {
 
   return (
     <View style={{ padding: 20 }}>
+      <Pressable
+        
+        onPress={() => router.push("/app")}
+      >
+        <Image source={require("../assets/close.png")} />
+      </Pressable>
       <Text>Ingresa los valores de x, y y z:</Text>
       <TextInput
         placeholder="Valor de x"
